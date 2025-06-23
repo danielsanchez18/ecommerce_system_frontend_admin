@@ -1,0 +1,156 @@
+<section class="rounded-lg border border-gray-200 flex flex-col w-full">
+
+  <div class="px-5 py-3 border-b border-gray-200">
+    <p class="text-sm font-medium">Información</p>
+  </div>
+
+  <form [formGroup]="companyForm"
+    class="px-5 py-5 grid md:grid-cols-2 gap-5">
+
+    <div class="space-y-2 md:col-span-2">
+      <label for="image" class="block text-sm font-medium">
+        Foto
+        <span class="text-gray-500 font-normal text-xs">(La imagen no debe pesar mas de 5MB)</span>
+      </label>
+      <input
+        id="image" name="image"
+        type="file" accept="image/*"
+        (change)="onImageSelected($event)"
+        class="text-sm w-full contain-content rounded-lg border file:border-r file:border-gray-200 border-gray-200 file:text-sm file:py-2 file:px-4 file:focus:outline-primary file:mr-4 file:text-gray-600 hover:file:bg-gray-50 hover:cursor-pointer hover:file:cursor-pointer">
+        <p *ngIf="errorMessageValidator" class="text-red-600 text-xs">{{ errorMessageValidator }}</p>
+    </div>
+
+    <div class="space-y-2 md:col-span-2">
+      <label for="name" class="block text-sm font-medium">
+        Nombre
+        <span class="text-red-600">*</span>
+        <span class="text-gray-500 font-normal text-xs"> (Mín 3 caracteres y máx 50 caracteres)</span>
+      </label>
+      <input
+        id="name" name="name"
+        formControlName="name"
+        type="text" maxlength="50"
+        placeholder="Ingrese el nombre de la empresa"
+        class="border rounded-lg border-gray-200 text-sm w-full py-2 px-4 focus:outline-primary"
+      >
+      <div *ngIf="companyForm.get('name')?.touched && companyForm.get('name')?.invalid" class="text-red-600 text-xs">
+        <div *ngIf="companyForm.get('name')?.errors?.['required']">El nombre es obligatorio.</div>
+        <div *ngIf="companyForm.get('name')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</div>
+        <div *ngIf="companyForm.get('name')?.errors?.['maxlength']">El nombre no debe exceder los 50 caracteres.</div>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <label for="phoneNumber" class="block text-sm font-medium">
+        Teléfono
+      </label>
+      <input
+        id="phoneNumber" name="phoneNumber"
+        formControlName="phoneNumber"
+        type="text" maxlength="20"
+        placeholder="Ingrese el número de teléfono"
+        (input)="onPhoneNumberInput($event)"
+        class="border rounded-lg border-gray-200 text-sm w-full py-2 px-4 focus:outline-primary"
+      >
+      <div *ngIf="companyForm.get('phoneNumber')?.touched && companyForm.get('phoneNumber')?.invalid" class="text-red-600 text-xs">
+        <div *ngIf="companyForm.get('phoneNumber')?.errors?.['minlength']">El teléfono debe tener al menos 9 dígitos.</div>
+        <div *ngIf="companyForm.get('phoneNumber')?.errors?.['maxlength']">El teléfono no debe exceder los 20 dígitos.</div>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <label for="email" class="block text-sm font-medium">
+        Correo
+      </label>
+      <input
+        id="email" name="email"
+        formControlName="email"
+        type="email" maxlength="50"
+        placeholder="Ingrese el correo de contacto"
+        class="border rounded-lg border-gray-200 text-sm w-full py-2 px-4 focus:outline-primary"
+      >
+      <div *ngIf="companyForm.get('email')?.touched && companyForm.get('email')?.invalid" class="text-red-600 text-xs">
+        <div *ngIf="companyForm.get('email')?.errors?.['email']">Ingrese un correo válido.</div>
+        <div *ngIf="companyForm.get('email')?.errors?.['maxlength']">El correo no debe exceder los 50 caracteres.</div>
+      </div>
+    </div>
+
+    <div class="space-y-2 md:col-span-2">
+      <label for="website" class="block text-sm font-medium">
+        Página web
+      </label>
+      <input
+        id="website" name="website"
+        formControlName="website"
+        type="text"
+        placeholder="www.example.com"
+        class="border rounded-lg border-gray-200 text-sm w-full py-2 px-4 focus:outline-primary"
+      >
+      <div *ngIf="companyForm.get('website')?.touched && companyForm.get('website')?.invalid" class="text-red-600 text-xs">
+        <div *ngIf="companyForm.get('website')?.errors?.['pattern']">Ingrese una URL válida (por ejemplo: www.example.com).</div>
+      </div>
+    </div>
+
+    <article class="flex items-center justify-end gap-x-2 md:col-span-2">
+      <button type="button"
+        class="px-3 py-2 text-sm font-medium border border-gray-200 bg-white hover:bg-gray-50 text-gray-800 rounded-lg">
+        Cancelar
+      </button>
+      <button type="button"
+        class="btn-primary" [disabled]="companyForm.invalid"
+        aria-haspopup="dialog" aria-expanded="false" aria-controls="alerts-confirm" data-hs-overlay="#alerts-confirm">
+        Guardar
+      </button>
+    </article>
+
+  </form>
+
+</section>
+
+<!-- Modal de confirmación de registro de empresa -->
+<div id="alerts-confirm"
+  class="hs-overlay hidden size-full fixed top-0 start-0 z-50 overflow-x-hidden overflow-y-auto pointer-events-none"
+  role="dialog" tabindex="-1" aria-labelledby="alerts-confirm-label">
+
+  <component-shared-alerts-confirm
+    [message]="'¿Está seguro de que desea registrar una nueva empresa?'"
+    [value]="companyForm.value.name"
+    (confirmAction)="onConfirmCompany()"
+  />
+
+</div>
+
+<!-- Modal de éxito de registro de empresa -->
+<div id="alerts-success"
+  class="hs-overlay hidden size-full fixed top-0 start-0 z-50 overflow-x-hidden overflow-y-auto pointer-events-none"
+  role="dialog" tabindex="-1" aria-labelledby="alerts-success-label">
+
+  <component-shared-alerts-success
+    [message]="successMessage"
+    [linkPrimary]="'dashboard/empresas'"
+    />
+
+</div>
+
+<!-- Modal de error de registro de empresa -->
+<div id="alerts-error"
+  class="hs-overlay hidden size-full fixed top-0 start-0 z-50 overflow-x-hidden overflow-y-auto pointer-events-none"
+  role="dialog" tabindex="-1" aria-labelledby="alerts-error-label">
+
+  <component-shared-alerts-error
+  [message]="errorMessage"
+    [btnPrimary]="'Cerrar'"
+  />
+
+</div>
+
+<!-- Botones de acción -->
+<button type="button"
+  class="hidden" id="open-error-modal"
+  aria-haspopup="dialog" aria-expanded="false" aria-controls="alerts-error" data-hs-overlay="#alerts-error"
+></button>
+
+<button type="button"
+  class="hidden" id="open-success-modal"
+  aria-haspopup="dialog" aria-expanded="false" aria-controls="alerts-success" data-hs-overlay="#alerts-success"
+></button>

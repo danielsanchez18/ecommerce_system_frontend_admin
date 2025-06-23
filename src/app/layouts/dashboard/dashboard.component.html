@@ -1,0 +1,57 @@
+<section class="h-[100dvh] w-full grid lg:grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
+
+  <section class="hidden lg:block w-64 h-full row-span-2 border-r border-r-gray-200">
+    <component-shared-sidebar />
+  </section>
+
+  <section class="px-5 sm:px-7 lg:px-10 py-3 w-full border-b border-gray-200 flex justify-between lg:justify-end">
+
+    <div class="block lg:hidden h-10">
+      <img src="/img/logo-horizontal.png" alt="Logo" class="h-full">
+    </div>
+
+    <div class="flex items-center gap-x-4">
+      <button class="p-2 rounded-full hover:bg-gray-100">
+        <lucide-icon [name]="Bell" class="size-4.5" />
+      </button>
+
+      <button class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+        <img src="https://avatars.githubusercontent.com/u/148911330?v=4" alt="Usuario" class="object-cover">
+      </button>
+    </div>
+  </section>
+
+  <section class="h-full w-full flex flex-col overflow-y-auto">
+
+    <div class="block lg:hidden py-2 px-5 sm:px-7 border-b border-gray-200">
+      <div class="flex items-center gap-x-3">
+
+        <!-- Boton Menu Responsive -->
+        <button type="button"
+          class="p-1 rounded-md bg-white hover:bg-gray-100 border border-gray-300"
+          aria-haspopup="dialog" aria-expanded="false" aria-controls="sidebar" aria-label="Toggle navigation"
+          data-hs-overlay="#sidebar"
+        >
+
+          <lucide-icon [name]="Menu" class="size-5 stroke-[1.5]" />
+
+        </button>
+
+        <!-- Link -->
+        <a routerLink="/dashboard" class="text-sm text-gray-700 underline-offset-4 hover:underline">
+          Dashboard
+        </a>
+        <lucide-icon [name]="ChevronRight" class="size-4 text-gray-500" />
+
+        <!-- Ruta Acutal -->
+        <p class="font-medium text-sm">{{ currentSection }}</p>
+
+      </div>
+    </div>
+
+    <div class="flex-1 py-10">
+      <router-outlet />
+    </div>
+  </section>
+
+</section>

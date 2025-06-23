@@ -1,0 +1,51 @@
+<section class="rounded-lg border border-gray-200 flex flex-col w-full">
+
+  <div class="px-5 py-3 border-b border-gray-200">
+    <p class="text-sm font-medium">Vista previa</p>
+  </div>
+
+  <div class="px-5 py-5 space-y-5">
+
+    <!-- Imagen de la empresa -->
+    <div *ngIf="companyPreview?.logoUrl" class="w-full h-60 bg-center bg-cover border border-gray-200 rounded-md"
+         [style.backgroundImage]="'url(' + companyPreview.logoUrl + ')'">
+    </div>
+
+    <!-- Imagen de la empresa (esqueleto) -->
+    <div *ngIf="!companyPreview?.logoUrl" class="bg-gray-100 rounded-md w-full min-h-60"></div>
+
+    <section class="space-y-2">
+
+      <!-- Nombre de la empresa (esqueleto) -->
+      <div *ngIf="!companyPreview?.name" class="bg-gray-100 rounded-full p-2 w-full mb-5"></div>
+      <p *ngIf="companyPreview?.name" class="font-semibold line-clamp-2"> {{ companyPreview.name }}</p>
+
+      <article class="flex items-center gap-x-3">
+        <lucide-icon [name]="Phone" class="size-4 stroke-[1.5]" />
+
+        <!-- Teléfono (esqueleto) -->
+        <div *ngIf="!companyPreview?.phoneNumber" class="bg-gray-100 rounded-full p-2 w-1/2"></div>
+        <p *ngIf="companyPreview?.phoneNumber" class="text-sm"> {{ companyPreview.phoneNumber }}</p>
+      </article>
+
+      <article class="flex items-center gap-x-3">
+        <lucide-icon [name]="Mail" class="size-4 stroke-[1.5]" />
+
+        <!-- Correo (esqueleto) -->
+        <div *ngIf="!companyPreview?.email" class="bg-gray-100 rounded-full p-2 w-1/2"></div>
+        <p *ngIf="companyPreview?.email" class="text-sm"> {{ companyPreview.email }}</p>
+      </article>
+
+      <article class="flex items-center gap-x-3">
+        <lucide-icon [name]="Globe" class="size-4 stroke-[1.5]" />
+
+        <!-- Sitio web (esqueleto) -->
+        <div *ngIf="!companyPreview?.website" class="bg-gray-100 rounded-full p-2 w-1/2"></div>
+        <p *ngIf="companyPreview?.website" class="text-sm"> {{ companyPreview.website }}</p>
+      </article>
+
+    </section>
+
+  </div>
+
+</section>

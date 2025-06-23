@@ -1,0 +1,131 @@
+<section class="grid grid-cols-[1fr_auto_auto] gap-x-2 mb-10">
+
+  <!-- Buscar -->
+  <component-shared-atoms-search
+    [(searchQuery)]="searchQuery"
+    [placeholder]="'Buscar empresas'"
+    (searchQueryChange)="loadCompanies()"
+  />
+
+  <!-- Boton Importar / Exportar -->
+  <button type="button"
+    class="hover:bg-gray-50 bg-white font-medium text-xs flex items-center px-3 py-2 gap-x-2 h-full rounded-md border border-gray-200">
+    <lucide-icon [name]="ArrowUpDown" class="size-4 stroke-[1.5]" />
+    <p class="hidden sm:block">Importar / Exportar</p>
+    <lucide-icon [name]="ChevronDown" class="size-4 stroke-[1.5] hidden md:block" />
+  </button>
+
+  <button type="button"
+    class="hover:bg-gray-50 bg-white font-medium text-xs flex items-center px-3 py-2 gap-x-2 h-full rounded-md border border-gray-200"
+    aria-haspopup="dialog" aria-expanded="false" aria-controls="filters-offcanvas" data-hs-overlay="#filters-offcanvas">
+    <lucide-icon [name]="SlidersHorizontal" class="size-4 stroke-[1.5]" />
+    <p>Filtros</p>
+    <p class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold bg-primary text-white">4</p>
+  </button>
+</section>
+
+<table class="min-w-full max-xl:hidden">
+
+  <thead class="max-xl:hidden">
+    <tr class="text-xs uppercase bg-gray-100 border border-gray-100">
+      <th scope="col" class="px-6 py-3 font-semibold text-start">Nombre</th>
+      <th scope="col" class="px-6 py-3 font-semibold text-start">Teléfono</th>
+      <th scope="col" class="px-6 py-3 font-semibold text-start">Correo</th>
+      <th scope="col" class="px-6 py-3 font-semibold text-start">Website</th>
+      <th scope="col" class="px-6 py-3 font-semibold text-center">Estado</th>
+      <th scope="col" class="px-6 py-3 font-semibold text-center">Sucursales</th>
+    </tr>
+  </thead>
+  <tbody class="divide-y divide-gray-200 border border-gray-200">
+    <tr *ngFor="let company of companies" routerLink="{{ company.id }}" class="group hover:bg-gray-50 hover:cursor-pointer">
+      <td class="px-6 py-4 whitespace-nowrap text-sm uppercase truncate underline-offset-4 group-hover:text-primary group-hover:underline">
+        {{ company.name }}
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm truncate">{{ company.phoneNumber || 'No registrado' }}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm truncate">{{ company.email || 'No registrado' }}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm truncate">{{ company.website || 'No registrado' }}</td>
+      <td class="px-6 py-4 whitespace-nowrap flex items-center justify-center uppercase text-center">
+        <p *ngIf="company.enabled" class="text-xs uppercase bg-white border border-green-600 text-green-600 px-3 py-1.5 rounded-full font-semibold">Activo</p>
+        <p *ngIf="!company.enabled" class="text-xs uppercase bg-white border border-gray-600 text-gray-600 px-3 py-1.5 rounded-full font-semibold">Inactivo</p>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-center">{{ company.branchesName?.length || 0 }}</td>
+    </tr>
+  </tbody>
+
+</table>
+
+<article class="sm:px-4 sm:border border-gray-200 rounded-lg divide-y divide-gray-200 xl:hidden mt-10">
+
+  <div *ngFor="let company of companies" routerLink="{{ company.id }}"
+    class="grid grid-cols-[auto_1fr] w-full gap-x-4 items-center py-5 group hover:cursor-pointer">
+    <div class="size-12 rounded-md row-span-2 bg-gray-200 shadow overflow-hidden">
+      <img *ngIf="company.logoUrl" [src]="getImageUrl(company.logoUrl)" alt="{{ company.name }} logo" class="object-cover h-full bg-white" />
+    </div>
+    <div class="flex items-center">
+      <p class="font-semibold text-sm uppercase w-full underline-offset-4 group-hover:underline group-hover:text-primary">{{ company.name }}</p>
+
+      <p *ngIf="company.enabled" class="text-xs bg-white border border-green-600 text-green-600 px-3 py-1.5 rounded-full font-semibold">Activo</p>
+      <p *ngIf="!company.enabled" class="text-xs bg-white border border-gray-600 text-gray-600 px-3 py-1.5 rounded-full font-semibold">Inactivo</p>
+    </div>
+    <p class="text-xs font-medium uppercase text-gray-500">Nro. sucursales: {{ company.branchesName?.length || 0 }}</p>
+
+    <div class="col-span-2 grid gap-y-1 mt-5">
+      <div class="flex items-center gap-x-3">
+        <lucide-icon [name]="Phone" class="size-4 text-gray-500" />
+        <p class="text-sm">{{ company.phoneNumber || 'No registrado' }}</p>
+      </div>
+      <div class="flex items-center gap-x-3">
+        <lucide-icon [name]="Mail" class="size-4 text-gray-500" />
+        <p class="text-sm">{{ company.email || 'No registrado' }}</p>
+      </div>
+      <div class="flex items-center gap-x-3">
+        <lucide-icon [name]="Globe" class="size-4 text-gray-500" />
+        <p class="text-sm">{{ company.website || 'No registrado' }}</p>
+      </div>
+    </div>
+  </div>
+
+</article>
+
+<article class="w-full flex items-center justify-between mt-10">
+  <p class="text-sm">{{ numberOfElements }} de {{ totalElements }} resultados</p>
+
+  <div class="flex items-center">
+
+    <button *ngIf="page > 0"
+      class="px-2 h-8 hover:bg-gray-100 rounded-lg flex items-center justify-center text-sm gap-x-1"
+      (click)="changePage(page - 1)">
+      <lucide-icon [name]="ChevronLeft" class="size-4" />
+      <p class="max-sm:hidden">Previous</p>
+    </button>
+
+    <!-- Página Actual - 1 -->
+    <button *ngIf="page === totalPages - 1"
+      class="size-8 hover:bg-gray-100 rounded-lg text-sm"
+      (click)="changePage(page - 1)">
+      {{ page }}
+    </button>
+
+    <!-- Pagina Actual -->
+    <button class="rounded-lg bg-gray-200 size-8  text-sm">{{ page + 1 }}</button>
+
+    <!-- Pagina Actual + 1 -->
+    <button *ngIf="page < totalPages - 1"
+      class="size-8 hover:bg-gray-100 rounded-lg text-sm"
+      (click)="changePage(page + 1)">
+      {{ page + 2 }}
+    </button>
+
+    <!-- Ir a Pagina siguiente -->
+    <button *ngIf="page < totalPages - 1"
+      class="px-2 h-8 hover:bg-gray-100 rounded-lg flex items-center justify-center text-sm gap-x-1"
+      (click)="changePage(page + 1)">
+      <p class="max-sm:hidden">Next</p>
+      <lucide-icon [name]="ChevronRight" class="size-4" />
+    </button>
+  </div>
+</article>
+
+<div id="filters-offcanvas" class="hs-overlay hs-overlay-open:translate-x-0 hidden translate-x-full fixed top-0 end-0 transition-all duration-200 transform h-full max-w-sm w-full z-80 bg-white border-s border-gray-200" role="dialog" tabindex="-1" aria-labelledby="filters-offcanvas-label">
+  <component-companies-filters />
+</div>

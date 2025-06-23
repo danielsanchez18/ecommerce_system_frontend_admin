@@ -1,0 +1,65 @@
+<section class="flex flex-col h-full">
+
+  <div class="flex items-center justify-between py-3 px-5 border-b border-b-gray-200">
+    <p class="font-medium">Filtros</p>
+
+    <button class="p-1.5 rounded-full bg-gray-50 hover:bg-gray-100">
+      <lucide-icon [name]="X" class="size-5" />
+    </button>
+  </div>
+
+  <div class="flex-1 px-5 py-7 space-y-7">
+
+    <article class="gap-y-2 grid">
+      <p class="text-xs font-semibold">ESTADO</p>
+
+      <select data-hs-select='{
+        "placeholder": "<span class=\"text-sm\">Seleccione un estado</span>",
+        "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+        "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 ps-4 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:outline-hidden focus:ring-2 focus:ring-primary",
+        "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300",
+        "optionClasses": "py-2 px-4 w-full text-sm cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100 hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50",
+        "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-primary\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
+        "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-down-icon lucide-chevron-down size-4 text-gray-500\"><path d=\"m6 9 6 6 6-6\"/></svg></div>"
+      }' class="hidden" [(ngModel)]="selectedState">
+        <option [value]="">Ninguno</option>
+        <option [value]="true">Activo</option>
+        <option [value]="false">Inactivo</option>
+      </select>
+    </article>
+
+    <article class="gap-y-3 grid">
+      <p class="text-xs font-semibold">FECHA DE INICIO</p>
+      <select name="" id="" class="rounded-lg text-sm px-4 py-2 border-gray-200">
+        <option value="" selected disabled>Seleccionar opcion</option>
+        <option value="1">Activo</option>
+        <option value="2">Inactivo</option>
+      </select>
+    </article>
+
+    <article class="gap-y-3 grid">
+      <p class="text-xs font-semibold">FECHA DE FIN</p>
+      <select name="" id="" class="rounded-lg text-sm px-4 py-2 border-gray-200">
+        <option value="" selected disabled>Seleccionar opcion</option>
+        <option value="1">Activo</option>
+        <option value="2">Inactivo</option>
+      </select>
+    </article>
+
+  </div>
+
+  <div class="px-5 py-4 border-t border-t-gray-200 flex items-center gap-x-3">
+
+    <button type="button"
+      class="w-full flex items-center justify-center gap-x-2 rounded-md bg-white border border-gray-200 py-2 px-3 text-sm font-medium">
+      Limpiar filtros
+    </button>
+
+    <button type="button"
+      class="w-full flex items-center justify-center gap-x-2 rounded-md bg-primary text-white py-2 px-3 text-sm font-semibold">
+      Aplicar
+    </button>
+
+  </div>
+
+</section>

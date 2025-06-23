@@ -1,1 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@import "preline/variants.css";
+@source "../node_modules/preline/dist/*.js";
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@custom-variant hover (&:hover);
+
+
+@theme {
+
+  --font-primary: "Inter", sans-serif;
+
+  --color-primary: #51965c;
+  --color-primary-light: #75b37f;
+  --color-primary-dark: #396f42;
+
+}
+
+:root {
+  @apply font-primary;
+}
+
+.btn-primary {
+  @apply bg-primary flex items-center justify-center gap-x-2 text-white text-sm font-medium rounded-lg px-4 py-2 hover:bg-primary-dark transition-colors duration-300
+  disabled:cursor-not-allowed disabled:bg-white disabled:hover:bg-white disabled:text-gray-800 disabled:border disabled:border-gray-200;
+}
+
+.btn-secondary {
+  @apply bg-white flex items-center justify-center gap-x-2 text-primary text-sm font-medium rounded-lg px-4 py-2 border border-primary hover:bg-gray-50 transition-colors duration-300;
+}
+
+input, select {
+  @apply focus:outline-none focus:border-transparent focus:ring-2 focus:ring-primary;
+}
+
+/* Ocultar flechas de los input de tipo number Para Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Ocultar flechas de los input de tipo number Para Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
