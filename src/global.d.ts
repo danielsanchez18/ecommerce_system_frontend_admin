@@ -9,6 +9,7 @@ declare global {
     DataTable;
     Dropzone;
     VanillaCalendarPro;
+    Lodash;
 
     // Preline UI
     HSStaticMethods: IStaticMethods;

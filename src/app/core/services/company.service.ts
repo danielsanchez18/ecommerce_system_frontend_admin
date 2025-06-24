@@ -20,8 +20,8 @@ export class CompanyService {
     return this.http.post<Company>(this.apiUrl, formData);
   }
 
-  update(id: string, formData: FormData): Observable<Company> {
-    return this.http.put<Company>(`${this.apiUrl}/${id}`, formData);
+  getCompanyById(id: string): Observable<Company> {
+    return this.http.get<Company>(`${this.apiUrl}/${id}`);
   }
 
   getAll(page: number, size: number): Observable<PaginatedResponse<Company>> {
@@ -51,6 +51,14 @@ export class CompanyService {
     if (enabled !== null) params = params.set('enabled', enabled.toString());
 
     return this.http.get<PaginatedResponse<Company>>(`${this.apiUrl}/search`, { params });
+  }
+
+  update(id: string, formData: FormData): Observable<Company> {
+    return this.http.put<Company>(`${this.apiUrl}/${id}`, formData);
+  }
+
+  deleteCompany(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
 }

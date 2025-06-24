@@ -1,0 +1,124 @@
+<section class="grid xl:grid-cols-[2fr_1fr] gap-5">
+
+  <article class="rounded-lg border border-gray-200 w-full row-span-2">
+    <div class="py-3 px-5 border-b border-gray-200 flex items-center gap-x-2">
+      <lucide-icon [name]="Info" class="size-3.5" />
+      <p class="text-sm font-medium">Información general</p>
+    </div>
+    <div class="px-5 py-5 grid gap-5">
+      <div class="h-56 rounded-lg row-span-2 border border-gray-200 overflow-hidden relative group flex items-center justify-center">
+        <img *ngIf="company.logoUrl" [src]="getImageUrl(company.logoUrl)" alt="{{ company.name }} logo" class="object-cover h-full bg-white" />
+
+        <div *ngIf="company.logoUrl" class="hidden group-hover:flex items-center justify-center h-full w-full bg-black/20 absolute top-0">
+          <a [href]="getImageUrl(company.logoUrl)" target="_blank" class="px-3 py-2 rounded text-white bg-gray-900 text-xs font-semibold">
+            Ver imagen completa
+          </a>
+        </div>
+      </div>
+      <div class="w-full grid grid-cols-[1fr_auto] gap-y-1 items-center">
+        <p class="text-lg font-medium">{{ company.name }}</p>
+        <button *ngIf="company.enabled" class="px-3 py-1.5 rounded-full bg-primary text-white text-xs font-semibold">Activo</button>
+        <button *ngIf="!company.enabled" class="px-3 py-1.5 rounded-full bg-gray-200 text-xs font-semibold">Inactivo</button>
+        <div class="flex items-center gap-x-2 text-sm mt-3 col-span-2">
+          <lucide-icon [name]="Info" class="size-4 text-gray-500" />
+          <p class="line-clamp-1">ID: {{ company.id }}</p>
+        </div>
+        <div class="flex items-center gap-x-2 text-sm col-span-2">
+          <lucide-icon [name]="User" class="size-4 text-gray-500" />
+          <p class="line-clamp-1">Fundador: Nombre completo del fundador</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="rounded-lg border border-gray-200 w-full">
+    <div class="py-3 px-5 border-b border-gray-200 flex items-center gap-x-2">
+      <lucide-icon [name]="Phone" class="size-3.5" />
+      <p class="text-sm font-medium">Información de contacto</p>
+    </div>
+
+    <div class="px-5 py-5 space-y-1">
+      <div class="flex items-center gap-x-2 text-sm line-clamp-1">
+        <lucide-icon [name]="Phone" class="size-3.5 text-gray-500" />
+        <p class="text-gray-500">Teléfono:</p>
+        <a *ngIf="company.phoneNumber" [href]="'tel:' + company.phoneNumber" class="underline text-primary">
+          {{ company.phoneNumber }}
+        </a>
+        <p *ngIf="!company.phoneNumber">Sin registrar</p>
+      </div>
+
+      <div class="flex items-center gap-x-2 text-sm line-clamp-1">
+        <lucide-icon [name]="Mail" class="size-3.5 text-gray-500" />
+        <p class="text-gray-500">Correo:</p>
+        <a *ngIf="company.email" [href]="'mailto:' + company.email" class="underline text-primary">
+            {{ company.email }}
+        </a>
+        <p *ngIf="!company.email">Sin registrar</p>
+      </div>
+
+      <div class="flex items-center gap-x-2 text-sm line-clamp-1">
+        <lucide-icon [name]="Globe" class="size-3.5 text-gray-500" />
+        <p class="text-gray-500">Sitio web:</p>
+        <a *ngIf="company.website" [href]="company.website?.startsWith('http') ? company.website : 'https://' + company.website" target="_blank" class="underline text-primary">
+          {{ company.website }}
+        </a>
+        <p *ngIf="!company.website">Sin registrar</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="rounded-lg border border-gray-200 w-full">
+    <div class="py-3 px-5 border-b border-gray-200 flex items-center gap-x-2">
+      <lucide-icon [name]="Calendar" class="size-3.5" />
+      <p class="text-sm font-medium">Información de auditoría</p>
+    </div>
+
+    <div class="px-5 divide-y divide-gray-200">
+      <div class="py-5 space-y-1">
+        <p class="text-sm text-gray-500">Fecha de creación</p>
+        <p class="font-semibold">{{ company.audit.createdAt | date: 'dd MMMM yyyy, HH:MM' }}</p>
+        <div class="flex items-center gap-x-1 text-gray-500 text-sm">
+          <lucide-icon [name]="User" class="size-4" />
+          <p>Nombre del creador</p>
+        </div>
+      </div>
+      <div class="py-5 space-y-1">
+        <p class="text-sm text-gray-500">Fecha de actualización</p>
+        <p class="font-semibold" *ngIf="company.audit.updatedAt">{{ company.audit.updatedAt | date: 'dd MMMM yyyy, HH:MM' }}</p>
+        <p class="font-semibold" *ngIf="!company.audit.updatedAt">Sin actualizar</p>
+        <div *ngIf="company.audit.updatedAt" class="flex items-center gap-x-1 text-gray-500 text-sm">
+          <lucide-icon [name]="UserRound" class="size-4" />
+          <p>Nombre del creador</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="rounded-lg border border-gray-200 w-full">
+    <div class="py-3 px-5 border-b border-gray-200 flex items-center gap-x-2">
+      <lucide-icon [name]="Building2" class="size-3.5" />
+      <p class="text-sm font-medium">Sucursales registradas</p>
+    </div>
+
+    <div class="gap-2 px-5 py-5 grid">
+
+      <a routerLink="/dashboard/sucursales/1"
+        class="py-2.5 px-4 rounded-lg bg-gray-100 block space-y-1.5">
+        <p class="text-xs font-semibold uppercase">Nombre de la sucursal</p>
+        <div class="text-xs text-gray-700 flex items-center gap-x-1">
+          <lucide-icon [name]="MapPin" class="size-4 text-gray-500" />
+          Dirección completa
+        </div>
+      </a>
+      <a routerLink="/dashboard/sucursales/1"
+        class="py-2.5 px-4 rounded-lg bg-gray-100 block space-y-1.5">
+        <p class="text-xs font-semibold uppercase">Nombre de la sucursal</p>
+        <div class="text-xs text-gray-700 flex items-center gap-x-1">
+          <lucide-icon [name]="MapPin" class="size-4 text-gray-500" />
+          Dirección completa
+        </div>
+      </a>
+    </div>
+  </article>
+
+</section>

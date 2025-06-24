@@ -12,5 +12,9 @@ export const COMPANY_ROUTES: Routes = [
   {
     path: ':id',
     loadComponent: () => import('../companies/details/details.component').then(m => m.PageCompaniesDetails),
+  },
+  {
+    path: ':id/editar',
+    loadComponent: () => import('../companies/edit/edit.component').then(m => m.PageCompaniesEdit),
   }
 ];
